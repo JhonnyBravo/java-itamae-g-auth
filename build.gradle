@@ -10,7 +10,7 @@
 apply{
     plugin 'java'
     plugin 'eclipse'
-    plugin 'maven-publish'
+    plugin 'maven'
 }
 
 group='com.github.JhonnyBravo'
@@ -28,13 +28,13 @@ repositories {
 
 dependencies {
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    implementation 'com.google.api-client:google-api-client:1.23.0'
-    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
-    implementation 'com.github.JhonnyBravo:java-itamae-contents:master-SNAPSHOT'
+    compile 'com.google.api-client:google-api-client:1.23.0'
+    compile 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
+    compile 'com.github.JhonnyBravo:java-itamae-contents:master-SNAPSHOT'
     
     // Use JUnit test framework
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'com.google.apis:google-api-services-drive:v3-rev110-1.23.0'
+    testCompile 'junit:junit:4.12'
+    testCompile 'com.google.apis:google-api-services-drive:v3-rev110-1.23.0'
 }
 
 task sourcesJar(type: Jar,dependsOn: classes){

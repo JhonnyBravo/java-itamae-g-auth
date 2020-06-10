@@ -38,4 +38,27 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
     }
 
+    @Override
+    public String getAuthUrl(ContentsAttribute contentsAttr,
+            AuthenticationAttribure authAttr) throws Exception {
+        String url = "";
+
+        try (Reader reader = streamRepository.getReader(contentsAttr)) {
+            GoogleClientSecrets clientSecrets = clientSecretsRepository
+                    .create(reader, authAttr);
+            authAttr.setClientSecrets(clientSecrets);
+
+            String authUri = clientSecrets.getWeb().getAuthUri();
+            String clientId = clientSecrets.getWeb().getClientId();
+            String redirectUri = String.join(",",
+                    clientSecrets.getWeb().getRedirectUris());
+            String scope = String.join(",", authAttr.getScopeList());
+
+            String format = "%s?client_id=%s&redirect_uri=%s&scope=%s&response_type=code&access_type=offline";
+            url = String.format(format, authUri, clientId, redirectUri, scope);
+        }
+
+        return url;
+    }
+
 }

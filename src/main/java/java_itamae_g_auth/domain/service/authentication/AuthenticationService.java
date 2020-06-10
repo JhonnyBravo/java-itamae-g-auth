@@ -19,4 +19,18 @@ public interface AuthenticationService {
      */
     public void authorize(ContentsAttribute contentsAttr,
             AuthenticationAttribure authAttr) throws Exception;
+
+    /**
+     * Web アプリケーション用の認証 URL を生成して返す。
+     * 
+     * @param contentsAttr
+     *            client_secret.json の読取りに使用する情報を収めた ContentsAttribute を指定する。
+     * @param authAttr
+     *            認証に使用する情報を収めた AuthenticationAttribute を指定する。
+     * @return 認証 URL を返す。
+     * @throws Exception
+     *             {@link java.lang.Exception}
+     */
+    public String getAuthUrl(ContentsAttribute contentsAttr,
+            AuthenticationAttribure authAttr) throws Exception;
 }

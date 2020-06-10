@@ -9,6 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.services.drive.DriveScopes;
 
 import java_itamae_contents.domain.model.ContentsAttribute;
@@ -30,13 +31,15 @@ public class AuthenticationServiceTest {
 
     @After
     public void tearDown() throws Exception {
-        credentialFile.delete();
+        if (credentialFile.isFile()) {
+            credentialFile.delete();
+        }
     }
 
     @Test
     public void 認証ファイルが作成されること() throws Exception {
         ContentsAttribute contentsAttr = new ContentsAttribute();
-        contentsAttr.setPath("src/test/resources/client_secret.json");
+        contentsAttr.setPath("src/test/resources/cli/client_secret.json");
         contentsAttr.setEncoding("UTF-8");
 
         AuthenticationAttribure authAttr = new AuthenticationAttribure();
@@ -45,6 +48,27 @@ public class AuthenticationServiceTest {
 
         service.authorize(contentsAttr, authAttr);
         assertThat(credentialFile.isFile(), is(true));
+    }
+
+    @Test
+    public void 認証URLを取得できること() throws Exception {
+        ContentsAttribute contentsAttr = new ContentsAttribute();
+        contentsAttr.setPath("src/test/resources/web/client_secret.json");
+        contentsAttr.setEncoding("UTF-8");
+
+        AuthenticationAttribure authAttr = new AuthenticationAttribure();
+        authAttr.addScope(DriveScopes.DRIVE);
+
+        String actualUrl = service.getAuthUrl(contentsAttr, authAttr);
+
+        GoogleClientSecrets clientSecrets = authAttr.getClientSecrets();
+        String clientId = clientSecrets.getWeb().getClientId();
+        String redirectUri = String.join(",",
+                clientSecrets.getWeb().getRedirectUris());
+
+        String format = "https://accounts.google.com/o/oauth2/auth?client_id=%s&redirect_uri=%s&scope=https://www.googleapis.com/auth/drive&response_type=code&access_type=offline";
+        String expectUrl = String.format(format, clientId, redirectUri);
+        assertThat(actualUrl, is(expectUrl));
     }
 
 }

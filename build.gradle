@@ -9,8 +9,10 @@
 // Apply the java-library plugin to add support for Java Library
 apply{
     plugin 'java'
-    plugin 'eclipse'
+    plugin 'eclipse-wtp'
     plugin 'maven'
+    plugin 'war'
+    plugin 'com.bmuschko.tomcat'
 }
 
 group='com.github.JhonnyBravo'
@@ -27,14 +29,32 @@ repositories {
 }
 
 dependencies {
+    // Tomcat
+    def tomcatVersion='8.0.36'
+
+    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+           "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}",
+           "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
+
+    compile fileTree(dir: "WebContent/WEB-INF/lib", include: '*.jar')
+    compile "org.apache.tomcat:tomcat-servlet-api:${tomcatVersion}"
+    compile "org.apache.tomcat:tomcat-jsp-api:${tomcatVersion}"
+
+    compile group: 'taglibs', name: 'standard', version: '1.1.2'
+    compile group: 'javax.servlet.jsp.jstl', name: 'jstl', version: '1.2'
+    compile group: 'javax.servlet.jsp.jstl', name: 'javax.servlet.jsp.jstl-api', version: '1.2.2'
+    compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.1.0.Final'
+    compile group: 'javax.el', name: 'javax.el-api', version: '3.0.0'
+    compile group: 'org.glassfish', name: 'javax.el', version: '3.0.0'
+
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     compile 'com.google.api-client:google-api-client:1.23.0'
     compile 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
     compile 'com.github.JhonnyBravo:java-itamae-contents:master-SNAPSHOT'
-    
+    compile 'com.google.apis:google-api-services-drive:v3-rev110-1.23.0'
+
     // Use JUnit test framework
     testCompile 'junit:junit:4.12'
-    testCompile 'com.google.apis:google-api-services-drive:v3-rev110-1.23.0'
 }
 
 task sourcesJar(type: Jar,dependsOn: classes){
@@ -59,4 +79,43 @@ javadoc{
 
 tasks.withType(JavaCompile){
     options.encoding='UTF-8'
+}
+
+buildscript {
+    repositories {
+        maven {url "https://plugins.gradle.org/m2/"}
+    }
+
+    dependencies {
+        classpath "com.bmuschko:gradle-tomcat-plugin:2.5"
+    }
+}
+
+project.webAppDirName = 'WebContent'
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+
+        resources {
+            srcDir 'src/main/resources'
+        }
+    }
+
+    test {
+        java {
+            srcDir 'src/test/java'
+        }
+
+        resources {
+            srcDir 'src/test/resources'
+        }
+    }
+}
+
+war {
+    exclude 'WEB-INF/lib/**'
+    exclude 'WEB-INF/classes/**'
 }

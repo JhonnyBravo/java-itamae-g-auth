@@ -43,7 +43,6 @@ public class AuthenticationServiceTest {
         contentsAttr.setEncoding("UTF-8");
 
         AuthenticationAttribure authAttr = new AuthenticationAttribure();
-        authAttr.setUserName("test_user");
         authAttr.addScope(DriveScopes.DRIVE);
 
         service.authorizeInstalledApp(contentsAttr, authAttr);

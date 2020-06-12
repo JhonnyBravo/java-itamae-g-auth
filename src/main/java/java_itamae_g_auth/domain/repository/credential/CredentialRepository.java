@@ -9,7 +9,7 @@ import java_itamae_g_auth.domain.model.AuthenticationAttribure;
  */
 public interface CredentialRepository {
     /**
-     * 認証情報を取得する。
+     * Installed App の Credential を取得する。
      *
      * @param authAttr
      *            認証に使用する情報を収めた AuthenticationAttribute を指定する。
@@ -17,5 +17,18 @@ public interface CredentialRepository {
      * @throws Exception
      *             {@link java.lang.Exception}
      */
-    public Credential create(AuthenticationAttribure authAttr) throws Exception;
+    public Credential createInstalledAppCredential(
+            AuthenticationAttribure authAttr) throws Exception;
+
+    /**
+     * Web App の Credential を取得する。
+     *
+     * @param authAttr
+     *            認証に使用する情報を収めた AuthenticationAttribute を指定する。
+     * @return credential {@link com.google.api.client.auth.oauth2.Credential}
+     * @throws Exception
+     *             {@link java.lang.Exception}
+     */
+    public Credential createWebAppCredential(AuthenticationAttribure authAttr)
+            throws Exception;
 }

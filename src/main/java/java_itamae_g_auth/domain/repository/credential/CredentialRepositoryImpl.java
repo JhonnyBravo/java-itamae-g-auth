@@ -28,8 +28,8 @@ public class CredentialRepositoryImpl implements CredentialRepository {
         AuthorizationCodeInstalledApp authorizationCodeInstalledApp = new AuthorizationCodeInstalledApp(
                 builder.build(), new LocalServerReceiver());
 
-        Credential credential = authorizationCodeInstalledApp
-                .authorize(authAttr.getUserName());
+        Credential credential = authorizationCodeInstalledApp.authorize(
+                authAttr.getClientSecrets().getInstalled().getClientId());
         credential.refreshToken();
 
         return credential;

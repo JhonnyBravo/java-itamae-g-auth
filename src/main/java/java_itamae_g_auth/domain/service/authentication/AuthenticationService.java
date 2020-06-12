@@ -8,7 +8,7 @@ import java_itamae_g_auth.domain.model.AuthenticationAttribure;
  */
 public interface AuthenticationService {
     /**
-     * 認証を実行する。
+     * Installed App の認証を実行する。
      *
      * @param contentsAttr
      *            client_secret.json の読取りに使用する情報を収めた ContentsAttribute を指定する。
@@ -17,12 +17,23 @@ public interface AuthenticationService {
      * @throws Exception
      *             {@link java.lang.Exception}
      */
-    public void authorize(ContentsAttribute contentsAttr,
+    public void authorizeInstalledApp(ContentsAttribute contentsAttr,
             AuthenticationAttribure authAttr) throws Exception;
 
     /**
-     * Web アプリケーション用の認証 URL を生成して返す。
-     * 
+     * Web App の認証を実行する。
+     *
+     * @param authAttr
+     *            認証に使用する情報を収めた AuthenticationAttribute を指定する。
+     * @throws Exception
+     *             {@link java.lang.Exception}
+     */
+    public void authorizeWebApp(AuthenticationAttribure authAttr)
+            throws Exception;
+
+    /**
+     * Web App 用の認証 URL を生成して返す。
+     *
      * @param contentsAttr
      *            client_secret.json の読取りに使用する情報を収めた ContentsAttribute を指定する。
      * @param authAttr

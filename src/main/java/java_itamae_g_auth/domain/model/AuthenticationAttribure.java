@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -23,7 +24,9 @@ public class AuthenticationAttribure implements Serializable {
     private final JsonFactory jsonFactory;
     private final List<String> scopeList;
     private String userName;
+    private String code;
     private GoogleClientSecrets clientSecrets;
+    private GoogleTokenResponse tokenResponse;
     private Credential credential;
 
     public AuthenticationAttribure()
@@ -80,6 +83,21 @@ public class AuthenticationAttribure implements Serializable {
     }
 
     /**
+     * @return code code パラメータを返す。
+     */
+    public String getCode() {
+        return code;
+    }
+
+    /**
+     * @param code
+     *            code パラメータを指定する。
+     */
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    /**
      * @return clientSecrets
      *         {@link com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets}
      */
@@ -93,6 +111,22 @@ public class AuthenticationAttribure implements Serializable {
      */
     public void setClientSecrets(GoogleClientSecrets clientSecrets) {
         this.clientSecrets = clientSecrets;
+    }
+
+    /**
+     * @return tokenResponse
+     *         {@link com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse}
+     */
+    public GoogleTokenResponse getTokenResponse() {
+        return tokenResponse;
+    }
+
+    /**
+     * @param tokenResponse
+     *            {@link com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse}
+     */
+    public void setTokenResponse(GoogleTokenResponse tokenResponse) {
+        this.tokenResponse = tokenResponse;
     }
 
     /**

@@ -46,7 +46,7 @@ public class AuthenticationServiceTest {
         authAttr.setUserName("test_user");
         authAttr.addScope(DriveScopes.DRIVE);
 
-        service.authorize(contentsAttr, authAttr);
+        service.authorizeInstalledApp(contentsAttr, authAttr);
         assertThat(credentialFile.isFile(), is(true));
     }
 

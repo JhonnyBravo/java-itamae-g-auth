@@ -23,7 +23,6 @@ public class AuthenticationAttribure implements Serializable {
     private final HttpTransport httpTransport;
     private final JsonFactory jsonFactory;
     private final List<String> scopeList;
-    private String userName;
     private String code;
     private GoogleClientSecrets clientSecrets;
     private GoogleTokenResponse tokenResponse;
@@ -65,21 +64,6 @@ public class AuthenticationAttribure implements Serializable {
      */
     public void addScope(String scope) {
         scopeList.add(scope);
-    }
-
-    /**
-     * @return ユーザ名を返す。
-     */
-    public String getUserName() {
-        return userName;
-    }
-
-    /**
-     * @param userName
-     *            ユーザ名を指定する。
-     */
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     /**
